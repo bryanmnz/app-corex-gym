@@ -40,7 +40,7 @@ exports.create = (req, res) => {
 }
 
 exports.login = (req, res) => {
-    User.find({ email: req.body.email,state:true }, (err, userdb) => {
+    User.find({ email: req.body.email, state: true }, (err, userdb) => {
         if (err) {
             response.code = "-1";
             response.message = "Failed";
@@ -48,20 +48,33 @@ exports.login = (req, res) => {
             return res.status(400).json(response);
         }
         var password = req.body.password
-        if(password != userdb[0].password){
+        if (userdb.length != 0) {
+            if (password != userdb[0].password) {
+                response.code = "-2";
+                response.message = "wrong data";
+                response.body = {
+                    errors: {
+                        general: [
+                            "Usuario o contrasena invalido"
+                        ]
+                    }
+                };
+            } else {
+                response.code = "0";
+                response.message = "success";
+                response.body = { user: userdb[0] };
+            }
+        } else {
             response.code = "-2";
             response.message = "wrong data";
             response.body = {
-                errors:{
-                    general:[
+                errors: {
+                    general: [
                         "Usuario o contrasena invalido"
                     ]
                 }
             };
-        }else{            
-            response.body = {user : userdb[0]};
         }
-        
         res.json(response);
     });
 }
