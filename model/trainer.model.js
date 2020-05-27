@@ -3,12 +3,13 @@ const config = require('../config/general.config');
 const uniqueValidator = require('mongoose-unique-validator');
 let Schema = mongoose.Schema;
 
-let gymSchema = new Schema({
+let trainerSchema = new Schema({
     name: { type: String, required: [true, 'El nombre es requerido'] },
+    lastname: { type: String, required: [true, 'El apellido es requerido'] },
     email: { type: String, required: [true, 'El correo es requerido'], unique: true },
     password: { type: String, required: [true, 'La contrasena es requerido'] },
     image: { type: String, required: [false, 'La imagen no es obligatoria'] },
-    role: { type: String, required: [true, 'El rol es requerido'], default: 'USER_ROLE', enum: { values: config.APP_ROLE, message: '{VALUE} No es un rol valido' } },
+    role: { type: String, required: [true, 'El rol es requerido'], default: 'USER_ROLE', enum: { values: config.APP_ROLE , message: '{VALUE} No es un rol valido' } },
     state: { type: Boolean, default: false },
     city: { type: String, required: [true, 'La ciudad es requerida'] },
     locality: { type: String, required: [true, 'La localidad es requerida'] },
@@ -20,13 +21,13 @@ let gymSchema = new Schema({
     
 });
 
-gymSchema.methods.toJSON = function () {
-    let gym = this;
-    let gymObject = gym.toObject();
-    delete gymObject.password;
-    return gymObject;
+trainerSchema.methods.toJSON = function () {
+    let trainer = this;
+    let trainerObject = trainer.toObject();
+    delete trainerObject.password;
+    return trainerObject;
 };
 
-gymSchema.plugin(uniqueValidator, { message: '{PATH} Debe de ser unico' });
+trainerSchema.plugin(uniqueValidator, { message: '{PATH} Debe de ser unico' });
 
-module.exports = mongoose.model('gym', gymSchema);
+module.exports = mongoose.model('trainer', trainerSchema);
