@@ -8,7 +8,7 @@ let usuarioSchema = new Schema({
     email: { type: String, required: [true, 'El correo es requerido'], unique: true },
     password: { type: String, required: [true, 'La contrasena es requerido'] },
     image: { type: String, required: [false, 'La imagen no es obligatoria'] },
-    role: { type: String, required: [true, 'El rol es requerido'], default: 'USER_ROLE', enum: { values: config.APP_ROLE, message: '{VALUE} No es un rol valido' } },
+    role: { type: String, required: [true, 'El rol es requerido'], default: 'USER_ROLE', enum: { values: ['ADMIN_ROLE', 'USER_ROLE', 'GYM_ROLE','TRAINER_ROLE'], message: '{VALUE} No es un rol valido' } },
     state: { type: Boolean, default: false },
     google: { type: Boolean, default: false },
 });
